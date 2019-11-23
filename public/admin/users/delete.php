@@ -21,8 +21,9 @@
     <a class = "back-link" href = "<?php echo url_for('/admin/users/index.php'); ?>">&laquo; Back to List</a>
 
     <div class = "user delete">
-        <h1>Delete Page</h1>
-        <p>Are you sure you want to delete this page?</p>
+
+        <h1>Delete User</h1>
+        <p>Are you sure you want to delete this user?</p>
         <p class = "item"><?php echo h($user['UID']) ." " .h($user['ufname']) ." " .h($user['ulname']); ?></p>
 
         <form action = "<?php echo url_for('/admin/users/delete.php?UID=' .h(u($user['UID']))); ?>" method = "post">
