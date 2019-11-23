@@ -66,6 +66,22 @@
                     <?php   
                         $department_set = find_all_departments();
                         while ($department = mysqli_fetch_assoc($department_set)) {
-                            echo "<option value=\"" . h($department[''])
+                            echo "<option value=\"" . h($department['did']) . "\"";
+                            if($user['did'] == $department['did']) {
+                                echo " selected";
+                            }
+                            echo ">" .h($department['dname']) . "</option>";
                         }
+                        mysqli_free_result($department_set);
+                    ?>
+                    </select>
+                </dd>
+            </dl>
+            <div id = "operations">
+                <input type = "submit" value = "Edit User" />
+            </div>
+        </form>
+    </div>
 </div>
+
+<?php require(SHARED_PATH . "/footer.php"); ?>
