@@ -1,5 +1,6 @@
 <?php
     // department
+
     function find_all_departments() {
         global $db;
 
