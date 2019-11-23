@@ -4,7 +4,7 @@
         redirect_to(url_for('/admin/users/index.php'));
     }
     $UID = $_GET['UID'];
-
+ 
     if (is_post_request()) {
         // value comes from new.php
 
@@ -70,7 +70,7 @@
                             if($user['did'] == $department['did']) {
                                 echo " selected";
                             }
-                            echo ">" .h($department['dname']) . "</option>";
+                            echo ">" .H($department['did']) ." " .h($department['dname']) . "</option>";
                         }
                         mysqli_free_result($department_set);
                     ?>
