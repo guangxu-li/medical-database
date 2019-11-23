@@ -138,7 +138,7 @@
 
         $sql = "DELETE FROM users ";
         $sql .= "WHERE UID = " . db_escape($db, $UID) ." ";
-        $sql .= "LIMIT 1" .";";
+        $sql .= "LIMIT 1;";
         
         $result = mysqli_query($db, $sql);
         if ($result) {
