@@ -35,9 +35,9 @@
                     <td><?php echo h($user['ulname']); ?></td>
                     <td><?php echo h($user['urole']); ?></td>
                     <td><?php echo h($department['dname']); ?></td>
-                    <td><a class = "action" href = "<?php echo url_for('/admin/users/show.php?uid=' .h(u($user['UID']))); ?>">View</a></td>
-                    <td><a class = "action" href = "<?php echo url_for('/admin/users/edit.php?uid=' .h(u($user['UID']))); ?>"Edit</a></td>
-                    <td><a class = "action" href = "<?php echo url_for('/admin/users/delete.php?uid=' .h(u($user['UID']))); ?>"Delete</a></td>
+                    <td><a class = "action" href = "<?php echo url_for('/admin/users/show.php?UID=' .h(u($user['UID']))); ?>">View</a></td>
+                    <td><a class = "action" href = "<?php echo url_for('/admin/users/edit.php?UID=' .h(u($user['UID']))); ?>"Edit</a></td>
+                    <td><a class = "action" href = "<?php echo url_for('/admin/users/delete.php?UID=' .h(u($user['UID']))); ?>"Delete</a></td>
                 </tr>
             <?php } ?>
         </table>
