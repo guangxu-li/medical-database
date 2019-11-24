@@ -4,9 +4,8 @@
         redirect_to(url_for('/admin/users/index.php'));
     }
     $UID = $_GET['UID'];
-
+ 
     if (is_post_request()) {
-        // value comes from new.php
 
         $user = [];
         $user['UID'] = $UID;
@@ -14,7 +13,7 @@
         $user['ulname'] = $_POST['ulname']??"";
         $user['urole'] = $_POST['urole']??"";
         $user['did'] = $_POST['did']??"";
-
+        
         $result = update_user($user);
         if ($result === true) {
             redirect_to(url_for('/admin/users/show.php?UID=' . $UID));
@@ -24,10 +23,6 @@
     } else {
         $user = find_user_by_uid($UID);
     }
-
-    $user_set = find_all_users();
-    $user_count = mysqli_num_rows($user_set);
-    mysqli_free_result($user_set);
  
     $page_title = "Edit User";
     require(SHARED_PATH ."/header.php");
@@ -66,11 +61,11 @@
                     <?php   
                         $department_set = find_all_departments();
                         while ($department = mysqli_fetch_assoc($department_set)) {
-                            echo "<option value=\"" . h($department['did']) . "\"";
+                            echo "<option value = \"" . h($department['did']) . "\"";
                             if($user['did'] == $department['did']) {
                                 echo " selected";
                             }
-                            echo ">" .h($department['dname']) . "</option>";
+                            echo ">" .h($department['did']) ." " .h($department['dname']) . "</option>";
                         }
                         mysqli_free_result($department_set);
                     ?>
