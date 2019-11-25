@@ -3,8 +3,8 @@
         {
             "database": "F196083B",
             "dialect": "MySQL",
-            "name": "MAMP PRO MYSQL",
-            "password": "T1MEsCHANGE.",
+            "name": "XAMPP MySQL",
+            "password": "",
             "port": 3306,
             "server": "localhost",
             "username": "root"
