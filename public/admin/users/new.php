@@ -13,7 +13,7 @@
         $result = insert_user($user);
         if($result === true) {
             $new_UID = mysqli_insert_id($db);
-            redirect_to(url_for('/admin/users/show.php?id=' . $new_UID));
+            redirect_to(url_for('/admin/users/show.php?uid=' . $new_UID));
         } else {
             $errors = $result;
         }
