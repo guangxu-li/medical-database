@@ -10,6 +10,8 @@
 <div id = "content">
     <div class = "users listing">
         <h1>Users</h1>
+        
+        <a class="back-link" href="<?php echo url_for('/admin/index.php'); ?>">&laquo; Back to Admin</a>
 
         <div class = "actions">
             <a class = "action" href = "<?php echo url_for('/admin/users/new.php'); ?>">Create New User</a>
