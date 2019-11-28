@@ -1,34 +1,37 @@
 <?php
+
+    $table_name = "users";
+    $pk = "UID";
     require_once('../../../private/initialize.php');
 
-    if(!isset($_GET['UID'])) {
-        redirect_to(url_for('/admin/users/index.php'));
+    if(!isset($_GET[$pk])) {
+        redirect_to(url_for('/admin/' .$table_name .'/index.php'));
     }
-    $UID = $_GET['UID'];
+    $pk_val = $_GET[$pk];
 
     if(is_post_request()) {
-        $result = delete_user($UID);
-        redirect_to(url_for('/admin/users/index.php'));
+        $result = delete_record($table_name, $pk, $pk_val);
+        redirect_to(url_for('/admin/' .$table_name .'/index.php'));
     } else {
-        $user = find_user_by_uid($UID);
+        $record = find_record_by_pk($table_name, $pk, $pk_val);
     }
 
-    $page_title = "Delete User";
+    $page_title = "Delete " .ucfirst($table_name);
     require(SHARED_PATH ."/header.php");
 ?>
 
 <div id = "content">
-    <a class = "back-link" href = "<?php echo url_for('/admin/users/index.php'); ?>">&laquo; Back to List</a>
+    <a class = "back-link" href = "<?php echo url_for('/admin/' .$table_name .'/index.php'); ?>">&laquo; Back to List</a>
 
-    <div class = "user delete">
+    <div class = "<?php echo $table_name ."delete"; ?>">
 
-        <h1>Delete User</h1>
-        <p>Are you sure you want to delete this user?</p>
-        <p class = "item"><?php echo h($user['UID']) ." " .h($user['ufname']) ." " .h($user['ulname']); ?></p>
+        <h1><?php echo "Delete " .ucfirst($table_name); ?></h1>
+        <p><?php echo "Are you sure you want to delete this " .$table_name ."?"; ?></p>
+        <p class = "item"><?php echo h($record[$pk]) ." " .h($record['ufname']) ." " .h($record['ulname']); ?></p>
 
-        <form action = "<?php echo url_for('/admin/users/delete.php?UID=' .h(u($user['UID']))); ?>" method = "post">
+        <form action = "<?php echo url_for('/admin/' .$table_name .'/delete.php?' .$pk .'=' .h(u($record[$pk]))); ?>" method = "post">
             <div id = "operations">
-                <input type = "submit" name = "commit" value = "Delete Page" />
+                <input type = "submit" name = "commit" value = "<?php echo "Delete " .ucfirst($table_name); ?>" />
             </div>
         </form>
     </div>

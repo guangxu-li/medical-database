@@ -31,11 +31,11 @@
     <a class="back-link" href="<?php echo url_for('/admin/' .$table_name .'/index.php'); ?>">&laquo; Back to List</a>
 
     <div class="<?php echo $table_name ." new"; ?>">
-    <h1><?php echo "Create " .ucfirst($table_name); ?></h1>
+        <h1><?php echo "Create " .ucfirst($table_name); ?></h1>
 
-    <?php echo display_errors($errors); ?>
+        <?php echo display_errors($errors); ?>
 
-    <form action = "<?php echo url_for('/admin/' .$table_name .'/new.php'); ?>" method = "post">
+        <form action = "<?php echo url_for('/admin/' .$table_name .'/new.php'); ?>" method = "post">
             <dl>
                 <dt><?php echo ucfirst($table_name) ." Name"; ?></dt>
                 <dd>
@@ -47,6 +47,6 @@
             </div>
         </form>
     </div>
-</dvi>
+</div>
 
 <?php require(SHARED_PATH .'/footer.php'); ?>

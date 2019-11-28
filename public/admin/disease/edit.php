@@ -14,7 +14,7 @@
         $record[$pk] = $pk_val;
         $record['dename'] = $_POST['dename']??"";
         
-        $result = update_record($record, $table_name);
+        $result = update_record($record, $table_name, $pk, $pk_val);
         if ($result === true) {
             redirect_to(url_for('/admin/' .$table_name .'/show.php?' .$pk .'=' . $pk_val));
         } else {
