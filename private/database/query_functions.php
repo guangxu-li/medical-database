@@ -37,6 +37,7 @@
     function find_record_by_pk($table_name, $pk, $pk_val) {
         global $db;
 
+
         if ($table_name == "patient_treatment") {
             $sql = "SELECT * FROM " .$table_name ." ";
             $sql .= "WHERE " .$pk['tdate'] ." = \"" .db_escape($db, $pk_val['tdate']) ."\" and ";
@@ -96,6 +97,7 @@
         
         $number = [];
         $maxnum = [];
+
         $numname = [];
         $skip = false;
 
@@ -179,6 +181,7 @@
         if (!empty($number)) {
             $num_errors = validate_number($number, $maxnum);
         }
+
         return array_merge($str_errors??[], $num_errors??[]);
     }
 
@@ -261,7 +264,7 @@
                 
                 break;
         }
-echo $sql;
+
         $result = mysqli_query($db, $sql);
 
         if($result) {
@@ -274,6 +277,7 @@ echo $sql;
             exit;
         }
     }
+
 
     function update_record($record, $table_name, $pk, $pk_val) {
         global $db;
@@ -366,10 +370,10 @@ echo $sql;
                 break;
             
             default:
-            
+     
                 break;
         }
-echo $sql;
+
         $result = mysqli_query($db, $sql);
         if ($result) {
             // true
@@ -384,7 +388,7 @@ echo $sql;
 
     function delete_record($table_name, $pk, $pk_val) {
         global $db;
-        
+
         if ($table_name == "patient_treatment") {
             $sql = "DELETE FROM " .$table_name ." ";
             $sql .= "WHERE " .$pk['tdate'] ." = \"" .db_escape($db, $pk_val['tdate']) ."\" and ";
