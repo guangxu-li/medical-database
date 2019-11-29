@@ -13,7 +13,7 @@
         $record['ufname'] = $_POST['ufname'] ?? "";
         $record['ulname'] = $_POST['ulname'] ?? "";
         $record['urole'] = $_POST['urole'] ?? "";
-        $record['did'] = $_POST['did'] ?? "";
+        $record[$fk] = $_POST[$fk] ?? "";
 
         $result = insert_record($record, $table_name);
         if($result === true) {
@@ -27,6 +27,7 @@
         $record['ufname'] = "";
         $record['ulname'] = "";
         $record['urole'] = "";
+        $record[$fk] = "";
     }
 
     $page_title = "Create " .ucfirst($table_name);

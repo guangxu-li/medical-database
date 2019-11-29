@@ -17,7 +17,6 @@
         $record[$pk] = $pk_val;
         $record['dname'] = $_POST['dname']??"";
         $record['dtel'] = $_POST['dtel']??"";
-        $record['dtel'] = substr($dtel, 0, 3) .$hyphen .substr($dtel, 4, 3) .$hyphen .substr($dtel, 8, 4);
         $record[$fk] = $_POST[$fk]??"";
         
         $result = update_record($record, $table_name, $pk, $pk_val);
