@@ -9,14 +9,45 @@
         return $result;
     }
 
+    function find_records($table_name, $attr, $attr_val) {
+        global $db;
+
+        $sql = "SELECT * FROM " .$table_name ." ";
+        $sql .= "WHERE " .$attr ." = " .$attr_val .";";
+
+        $result = mysqli_query($db, $sql);
+        confirm_result_set($result, $attr);
+        return $result;
+    }
+
+    function find_records_by_id($table_name, $pk, $pk_val) {
+        global $db;
+
+        if ($table_name == "patient_treatment") {
+            $sql = "SELECT * FROM " .$table_name ." ";
+            $sql .= "WHERE cast(" .$pk['tdate'] ." as date) = \"" .db_escape($db, $pk_val['tdate']) ."\" and ";
+            $sql .= $pk['tfreq'] ." = " .db_escape($db, $pk_val['tfreq']) ." and ";
+            $sql .= $pk['pid'] ." = " .db_escape($db, $pk_val['pid']) ." and ";
+            $sql .= $pk['tid'] ." = " .db_escape($db, $pk_val['tid']) ." and ";
+            $sql .= $pk['phid'] ." = " .db_escape($db, $pk_val['phid']) .";";
+
+        } else {
+
+        }
+
+        $result = mysqli_query($db, $sql);
+        confirm_result_set($result, $pk);
+        return $result;
+    }
+
     function find_record_by_pk($table_name, $pk, $pk_val) {
         global $db;
 
 
         if ($table_name == "patient_treatment") {
             $sql = "SELECT * FROM " .$table_name ." ";
-            $sql .= "WHERE " .$pk['tdate'] ." = \"" .db_escape($db, $pk_val['tdate']) ."\" and ";
-            $sql .= $pk['tfreq'] ." = \"" .db_escape($db, $pk_val['tfreq']) ."\" and ";
+            $sql .= "WHERE cast(" .$pk['tdate'] ." as date) = \"" .db_escape($db, $pk_val['tdate']) ."\" and ";
+            $sql .= $pk['tfreq'] ." = " .db_escape($db, $pk_val['tfreq']) ." and ";
             $sql .= $pk['pid'] ." = " .db_escape($db, $pk_val['pid']) ." and ";
             $sql .= $pk['tid'] ." = " .db_escape($db, $pk_val['tid']) ." and ";
             $sql .= $pk['phid'] ." = " .db_escape($db, $pk_val['phid']) .";";
@@ -24,7 +55,7 @@
             $sql = "SELECT * FROM " .$table_name ." ";
             $sql .= "WHERE " .$pk ." = \"" .db_escape($db, $pk_val) ."\";";
         }
-
+        
         $result = mysqli_query($db, $sql);
         confirm_result_set($result, $pk);
         $record = mysqli_fetch_assoc($result);
@@ -55,13 +86,16 @@
     function validate_number($number, $maxnum, $numname) {
         $errors = [];
 
+        $indice = 0;
         foreach ($number as $num) {
             if (!is_int($num)) {
                 $errors[] = $numname[$indice] ." is required and should be an integer.";
             }
             if ($num < 0 || $num > $maxnum[$indice]) {
-                $errors[] = $numname[$indice] ." is a number between 0 and " .maxnum[$indice];
+                $errors[] = $numname[$indice] ." is a number between 0 and " .$maxnum[$indice];
             }
+
+        $indice++;
         }
     }
 
@@ -92,6 +126,19 @@
                 $maxlen[] = 30;
                 $strname[] = ucfirst($table_name) ."'s name";
                 
+                break;
+
+            case 'hospital':
+                $string[] = $record['hname'];
+                $maxlen[] = 30;
+                $strname[] = ucfirst($table_name) ."'s name";
+
+                $string[] = $record['hst_address'];
+                $maxlen[] = 30;
+                $strname[] = ucfirst($table_name) ."'s address line";
+
+                $not_skip = false;
+
                 break;
 
             case 'patient':
@@ -288,6 +335,17 @@
                 $sql .= "WHERE deid = " .db_escape($db, $record['deid']) ." ";
                 $sql .= "LIMIT 1;";
 
+                break;
+
+            case 'hospital':
+                $sql = "UPDATE hospital SET ";
+                $sql .= "hname = \"" .db_escape($db, $record['hname']) ."\", ";
+                $sql .= "hst_address = \"" .db_escape($db, $record['hst_address']) ."\", ";
+                $sql .= "hst_city = \"" .db_escape($db, $record['hst_city']) ."\", ";
+                $sql .= "hzip = " .db_escape($db, $record['hzip']) ." ";
+                $sql .= "WHERE hid = " .db_escape($db, $record['hid']) ." ";
+                $sql .= "LIMIT 1;";
+                
                 break;
 
             case 'patient':
