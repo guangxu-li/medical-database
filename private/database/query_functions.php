@@ -1,9 +1,12 @@
 <?php
     function find_all($table_name, $pk) {
         global $db;
-
         $sql = "SELECT * FROM " .$table_name ." ";
-        $sql .= "ORDER BY " .$pk ." asc" .";";
+        $sql .= "ORDER BY " .$pk ." asc";
+        if ($table_name == "patient_treatment") {
+            $sql .= " , tdate asc, tfreq asc;";
+        }
+
         $result = mysqli_query($db, $sql);
         confirm_result_set($result, $table_name);
         return $result;
