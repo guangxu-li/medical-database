@@ -1,29 +1,4 @@
 <?php
-    // department
-
-    function find_all_departments() {
-        global $db;
-
-        $sql = "SELECT * FROM department ";
-        $sql .= "ORDER BY did asc" .";";
-        $result = mysqli_query($db, $sql);
-        confirm_result_set($result, "dept");
-        return $result;
-    }
-
-    function find_department_by_did($did) {
-        global $db;
-
-        $sql = "SELECT * FROM department ";
-        $sql .= "WHERE did=" . db_escape($db, $did) .";";
-        $result = mysqli_query($db, $sql);
-        confirm_result_set($result, "dept_by_did");
-        $department = mysqli_fetch_assoc($result);
-        mysqli_free_result($result);
-        return $department; //assoc. arry
-    }
-
-    // disease
     function find_all($table_name, $pk) {
         global $db;
 
@@ -47,7 +22,7 @@
             $sql .= $pk['phid'] ." = " .db_escape($db, $pk_val['phid']) .";";
         } else {
             $sql = "SELECT * FROM " .$table_name ." ";
-            $sql .= "WHERE " .$pk ." =" .db_escape($db, $pk_val) .";";
+            $sql .= "WHERE " .$pk ." = \"" .db_escape($db, $pk_val) ."\";";
         }
 
         $result = mysqli_query($db, $sql);
@@ -57,7 +32,7 @@
         return $record; // assoc. arry
     }
     
-    function validate_string($string, $maxlen, $skip, $strname) {
+    function validate_string($string, $maxlen, $not_skip, $strname) {
         $errors = [];
 
         $indice = 0;
@@ -65,7 +40,7 @@
             if (!is_string($str)) {
                 $errors[] = $strname[$indice] ." is required.";
             } else if (!(ctype_alpha(str_replace(" ", "", $str)) || 
-                        is_numeric(str_replace("-", "", $str))) || $skip) {
+                        is_numeric(str_replace("-", "", $str))) && $not_skip) {
                 $errors[] = $strname[$indice] ." is required and should only consist of letters/numbers";
             } else if (strlen($str) > $maxlen[$indice]) {
                 $errors[] = $strname[$indice] ." can't be longer than " .$maxlen[$indice] ." letters/numbers.";
@@ -99,7 +74,7 @@
         $maxnum = [];
 
         $numname = [];
-        $skip = false;
+        $not_skip = true;
 
         switch ($table_name) {
             case 'department':
@@ -153,7 +128,7 @@
                 $string[] = $record['tname'];
                 $maxlen[] = 50;
                 $strname[] = ucfirst($table_name) ."'s name";
-                $skip = true;
+                $not_skip = false;
 
                 break;
 
@@ -176,7 +151,7 @@
         }
         
         if (!empty($string)) {
-            $str_errors = validate_string($string, $maxlen, $skip, $strname);
+            $str_errors = validate_string($string, $maxlen, $not_skip, $strname);
         }
         if (!empty($number)) {
             $num_errors = validate_number($number, $maxnum);
@@ -197,15 +172,25 @@
             case 'department':
                 $sql = "INSERT INTO " .$table_name ." VALUES (NULL, ";
                 $sql .= "upper(\"" .db_escape($db, $record['dname']) ."\"), ";
-                $sql .= db_escape($db, $record['dtel']) .", ";
+                $sql .= "\"" .db_escape($db, $record['dtel']) ."\", ";
                 $sql .= db_escape($db, $record['hid']) .");";
-
+               
                 break;
             
             case 'disease':
                 $sql = "INSERT INTO " .$table_name ." VALUES (NULL, ";
                 $sql .= "upper(\"" .db_escape($db, $record['dename']) ."\"));";
                 
+                break;
+
+            case 'hospital':
+                $sql = "INSERT INTO " .$table_name ." VALUES (NULL, ";
+                $sql .= "\"" .db_escape($db, $record['hname']) ."\", ";
+                $sql .= "\"" .db_escape($db, $record['hst_address']) ."\", ";
+                $sql .= "\"" .db_escape($db, $record['hst_city']) ."\", ";
+                $sql .= "\"" .db_escape($db, $record['hstate']) ."\", ";
+                $sql .= db_escape($db, $record['hzip']) .");";
+
                 break;
 
             case 'patient':
@@ -237,17 +222,17 @@
             case 'physician':
                 $sql = "INSERT INTO " .$table_name ." VALUES (NULL, ";
                 $sql .= "upper(\"" .db_escape($db, $record['phfname']) ."\"), ";
-                $sql .= db_escape($db, $record['phtel']) .", ";
+                $sql .= "\"" .db_escape($db, $record['phtel']) ."\", ";
                 $sql .= "upper(\"" .db_escape($db, $record['phspl']) ."\"), ";
-                $sql .= db_escape($db, $record['hid']) .";";
+                $sql .= db_escape($db, $record['hid']) .");";
 
                 break;
 
             case 'treatment':
                 $sql = "INSERT INTO " .$table_name ." VALUES (NULL, ";
-                $sql .= "upper(\"" .db_escape($db, $record['tname']) ."\"), ";
+                $sql .= "\"" .ucfirst(db_escape($db, $record['tname'])) ."\", ";
                 $sql .= "upper(\"" .db_escape($db, $record['ttype']) ."\"), ";
-                $sql .= db_escape($db, $record['deid']) .";";
+                $sql .= db_escape($db, $record['deid']) .");";
 
                 break;
             
@@ -340,7 +325,7 @@
             case 'physician':
                 $sql = "UPDATE physician SET ";
                 $sql .= "phfname = upper(\"" .db_escape($db, $record['phfname']) ."\"), ";
-                $sql .= "phtel = " .db_escape($db, $record['phtel']) .", ";
+                $sql .= "phtel = \"" .db_escape($db, $record['phtel']) ."\", ";
                 $sql .= "phspl = upper(\"" .db_escape($db, $record['phspl']) ."\"), ";
                 $sql .= "hid = " .db_escape($db, $record['hid']) ." ";
                 $sql .= "WHERE phid = " .db_escape($db, $record['phid']) ." ";
@@ -350,7 +335,7 @@
 
             case 'treatment':
                 $sql = "UPDATE treatment SET ";
-                $sql .= "tname = upper(\"" .db_escape($db, $record['tname']) ."\"), ";
+                $sql .= "tname = \"" .ucfirst(db_escape($db, $record['tname'])) ."\", ";
                 $sql .= "ttype = upper(\"" .db_escape($db, $record['ttype']) ."\"), ";
                 $sql .= "deid = " .db_escape($db, $record['deid']) ." ";
                 $sql .= "WHERE tid = " .db_escape($db, $record['tid']) ." ";
@@ -415,136 +400,4 @@
         }
     }
 
-    function find_all_users() {
-        global $db;
-
-        $sql = "SELECT * FROM users ";
-        $sql .= "ORDER BY UID asc, did asc;";
-        $result = mysqli_query($db, $sql);
-        confirm_result_set($result, "users");
-        return $result;
-    }
-
-    function find_user_by_uid($UID) {
-        global $db;
-
-        $sql = "SELECT * FROM users ";
-        $sql .= "WHERE UID =" .db_escape($db, $UID) .";";
-        $result = mysqli_query($db, $sql);
-        confirm_result_set($result, "users_uid");
-        $user = mysqli_fetch_assoc($result);
-        mysqli_free_result($result);
-        return $user; // assoc. arry
-    }
-
-    function validate_user($user) {
-        $errors = [];
-
-        $ufname = $user['ufname'];
-        $ulname = $user['ulname'];
-        $urole = $user['urole'];
-        $did = (int) $user['did'];
-
-        // ufname
-        if (!is_string($ufname)) {
-            $errors[] = "User's first name is required.";
-        } else if (!ctype_alpha($ufname)) {
-            $errors[] = "User's first name is required and should only consist of letters.";
-        } else if (strlen($ufname) > 20) {
-            $errors[] = "User's first name can't be longer than 20 letters.";
-        }
-
-        // ulname
-        if (!is_string($ulname)) {
-            $errors[] = "User's last name is required.";
-        } else if (!ctype_alpha($ulname)) {
-            $errors[] = "User's last name is required and should only consist of letters.";
-        } else if (strlen($ulname) > 20) {
-            $errors[] = "User's last name can't be longer than 20 letters.";
-        }
-
-        // urole
-        if (!is_string($urole)) {
-            $errors[] = "User's role is required.";
-        } else if (!ctype_alpha($urole)) {
-            $errors[] = "User's role is required and should only consis of letters.";
-        } else if (strlen($urole) > 20) { 
-            $errors[] = "User's role can't be longer than 20 letters.";
-        }
-
-        return $errors;
-    }
-
-    function insert_user($user) {
-        global $db;
-
-        $errors = validate_user($user);
-        if(!empty($errors)) {
-            return $errors;
-        }
-
-        $sql = "INSERT INTO users VALUES (NULL, ";
-        $sql .= "upper(\"" .db_escape($db, $user['ufname']) ."\"), ";
-        $sql .= "upper(\"" .db_escape($db, $user['ulname']) ."\"), ";
-        $sql .= "upper(\"" .db_escape($db, $user['urole']) ."\"), ";
-        $sql .= db_escape($db, $user['did']) .");";
-        $result = mysqli_query($db, $sql);
-
-        if($result) {
-            // true
-            return true;
-        } else {
-            // false
-            echo mysqli_error($db);
-            db_disconnect($db);
-            exit;
-        }
-    }
-
-    function update_user($user) {
-        global $db;
-
-        $errors = validate_user($user);
-        if (!empty($errors)) {
-            return $errors;
-        }
-
-        $sql = "UPDATE users SET ";
-        $sql .= "ufname = upper(\"" . db_escape($db, $user['ufname']) ."\"), ";
-        $sql .= "ulname = upper(\"" . db_escape($db, $user['ulname']) ."\"), ";
-        $sql .= "urole = \"" . db_escape($db, $user['urole']) ."\", ";
-        $sql .= "did = " . db_escape($db, $user['did']) ." ";
-        $sql .= "WHERE UID = " .db_escape($db, $user['UID']) ." ";
-        $sql .= "LIMIT 1;";
-
-        $result = mysqli_query($db, $sql);
-        if ($result) {
-            // true
-            return true;
-        } else {
-            // false
-            echo mysqli_error($db);
-            db_disconnect($db);
-            exit;
-        }
-    }
-
-    function delete_user($UID) {
-        global $db;
-
-        $sql = "DELETE FROM users ";
-        $sql .= "WHERE UID = " . db_escape($db, $UID) ." ";
-        $sql .= "LIMIT 1;";
-        
-        $result = mysqli_query($db, $sql);
-        if ($result) {
-            // true
-            return true;
-        } else {
-            // false
-            echo mysqli_error($db);
-            db_disconnect($db);
-            exit;
-        }
-    }
 ?>
