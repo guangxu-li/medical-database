@@ -1,6 +1,6 @@
 <?php
-    $skip = 0;
-    require_once('../private/initialize.php');
+
+    require_once('../private/check.php');
 
     if (is_post_request()) {
 
@@ -9,14 +9,14 @@
       $remember = $_POST['remember']??0;
 
       $sql = "SELECT * FROM admin WHERE uname = \"" .db_escape($db, $uname) ."\" and psw = \"" .db_escape($db, $psw) ."\";";
-
+      echo $sql;
       $record = mysqli_query($db, $sql);
-      $result = mysqli_fetch_array($record);
+
       $rows = mysqli_num_rows($result);
 
-      if (!$rows) {
+      if ($rows) {
         redirect_to(url_for('/admin/index.php'));
-        $_SESSION['username'] = $uname;
+
         if ($remember == 1) {
           setcooke('uname', $uname, time()+36000);
           setcookie('psw', $psw, time()+36000);

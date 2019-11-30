@@ -23,6 +23,6 @@
       <ul>
         <li><a href="<?php echo url_for('/admin/index.php'); ?>">Menu</a></li>
         <li><a href="<?php echo url_for('index.php'); ?>">Login</a></li>
-        <li><a href="<?php echo url_for('logout.php'); ?>">Log out</li>
+        <li><a href="<?php echo url_for('logout.php'); ?>">Log out</a></li>
       </ul>
     </navigation>
