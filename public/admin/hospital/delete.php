@@ -1,8 +1,8 @@
 <?php
+    require_once('../../../private/initialize.php');
 
     $table_name = "hospital";
     $pk = "hid";
-    require_once('../../../private/initialize.php');
 
     if(!isset($_GET[$pk])) {
         redirect_to(url_for('/admin/' .$table_name .'/index.php'));

@@ -1,4 +1,5 @@
 <?php
+    require_once('../../../private/initialize.php');
 
     $table_name = "patient_treatment";
     $pk = [];
@@ -7,8 +8,6 @@
     $pk['pid'] = "pid";
     $pk['tid'] = "tid";
     $pk['phid'] = "phid";
-    
-    require_once('../../../private/initialize.php');
 
     if(!isset($_GET['tdate']) || !isset($_GET['tfreq']) || !isset($_GET['pid']) || !isset($_GET['tid']) || !isset($_GET['phid'])) {
         redirect_to(url_for('/admin/' .$table_name .'/index.php'));

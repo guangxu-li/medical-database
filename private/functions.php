@@ -38,4 +38,18 @@
         return $output;
     }
 
+    function encode($string) {
+        $str_reverse = strrev($string);
+        $str_encode = $str_reverse ."dontremove";
+
+        return $str_encode;
+    }
+
+    function decode($string) {
+        $new_str = preg_replace('/dontremove$/', '', $string);
+        $str_decode = strrev($new_str);
+
+        return $str_decode;
+    }
+
 ?>

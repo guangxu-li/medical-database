@@ -1,27 +1,27 @@
 <?php 
-require_once('../../../private/initialize.php');
+    require_once('../../../private/initialize.php');
 
-$table_name = "patient_treatment";
-$pk = [];
-$pk['tdate'] = "0000-00-00";
-$pk['tfreq'] = 0;
-$pk['pid'] = "pid";
-$pk['tid'] = "tid";
-$pk['phid'] = "phid";
+    $table_name = "patient_treatment";
+    $pk = [];
+    $pk['tdate'] = "0000-00-00";
+    $pk['tfreq'] = 0;
+    $pk['pid'] = "pid";
+    $pk['tid'] = "tid";
+    $pk['phid'] = "phid";
 
-if(!isset($_GET['pid']) || !isset($_GET['tid']) || !isset($_GET['phid'])) {
-    redirect_to(url_for('/admin/' .$table_name .'/index.php'));
-}
-$pk_val = [];
-$pk_val['tdate'] = "0000-00-00";
-$pk_val['tfreq'] = 0;
-$pk_val['pid'] = $_GET['pid'];
-$pk_val['tid'] = $_GET['tid'];
-$pk_val['phid'] = $_GET['phid'];
+    if(!isset($_GET['pid']) || !isset($_GET['tid']) || !isset($_GET['phid'])) {
+        redirect_to(url_for('/admin/' .$table_name .'/index.php'));
+    }
+    $pk_val = [];
+    $pk_val['tdate'] = "0000-00-00";
+    $pk_val['tfreq'] = 0;
+    $pk_val['pid'] = $_GET['pid'];
+    $pk_val['tid'] = $_GET['tid'];
+    $pk_val['phid'] = $_GET['phid'];
 
-$record_set = find_records_by_id($table_name, $pk, $pk_val);
-$page_title = ucfirst($table_name) ." Details";
-require(SHARED_PATH ."/header.php");
+    $record_set = find_records_by_id($table_name, $pk, $pk_val);
+    $page_title = ucfirst($table_name) ." Details";
+    require(SHARED_PATH ."/header.php");
 ?>
 
 <div id = "content">

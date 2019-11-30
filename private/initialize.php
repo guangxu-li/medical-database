@@ -1,5 +1,6 @@
 <?php
     ob_start(); //output buffering
+    session_start();
 
     define("PRIVATE_PATH", dirname(__FILE__));
     define("PROJECT_PATH", dirname(PRIVATE_PATH));
@@ -22,4 +23,9 @@
     $db = db_connect();
     $errors = [];
 
+    // if(empty($_COOKIE['uname'])&&empty($_COOKIE['password'])) {
+    //     if(!isset($_SESSION['username'])) {
+    //        redirect_to(url_for('index.php')); 
+    //     }
+    // }
 ?>
