@@ -8,11 +8,12 @@
       $remember = $_POST['remember']??0;
 
       $sql = "SELECT * FROM admin WHERE uname = \"" .db_escape($db, $uname) ."\" and psw = \"" .db_escape($db, $psw) ."\";";
+
       $record = mysqli_query($db, $sql);
       $result = mysqli_fetch_array($record);
       $rows = mysqli_num_rows($result);
 
-      if ($rows) {
+      if (!$rows) {
         redirect_to(url_for('/admin/index.php'));
         $_SESSION['username'] = $uname;
         if ($remember == 1) {
