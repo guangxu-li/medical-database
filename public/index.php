@@ -1,5 +1,4 @@
 <?php
-
     require_once('../private/check.php');
 
     if (is_post_request()) {
@@ -15,18 +14,17 @@
       $rows = mysqli_num_rows($record);
 
       if ($rows) {
+        if ($remember == 1) {
+          setcookie('uname', $uname, time()+36000);
+          setcookie('psw', $psw, time()+36000);
+          setcookie('remember', $remember, time()+36000);
+        } else {
+          setcookie('uname', $uname, time()+3600);
+          setcookie('psw', $psw, time()+3600);
+          setcookie('remember', $remember, time()+3600);
+        }
 
         redirect_to(url_for('/admin/index.php'));
-
-        if ($remember == 1) {
-          setcooke('uname', $uname, time()+36000);
-          setcookie('psw', $psw, time()+36000);
-          setcookoie('remember', $remember, time()+36000);
-        } else {
-          setcooke('uname', $uname, time()+3600);
-          setcookie('psw', $psw, time()+3600);
-          setcookoie('remember', $remember, time()+3600);
-        }
       } else {
         echo "Login info doesn't match in the database!";
         echo "
