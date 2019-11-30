@@ -1,4 +1,5 @@
 <?php
+    $skip = 0;
     require_once('../private/initialize.php');
 
     if (is_post_request()) {
@@ -17,13 +18,13 @@
         redirect_to(url_for('/admin/index.php'));
         $_SESSION['username'] = $uname;
         if ($remember == 1) {
+          setcooke('uname', $uname, time()+36000);
+          setcookie('psw', $psw, time()+36000);
+          setcookoie('remember', $remember, time()+36000);
+        } else {
           setcooke('uname', $uname, time()+3600);
           setcookie('psw', $psw, time()+3600);
           setcookoie('remember', $remember, time()+3600);
-        } else {
-          setcooke('uname', $uname, time()-3600);
-          setcookie('psw', $psw, time()-3600);
-          setcookoie('remember', $remember, time()-3600);
         }
       } else {
         echo "Login info doesn't match in the database!";
