@@ -24,7 +24,7 @@
     <div class = "<?php echo $table_name ." listing"; ?>">
         <h1><?php echo ucfirst($table_name) ." Details"; ?></h1>
         
-        <a class="back-link" href="<?php echo url_for('/admin/' .$table_name .'index.php'); ?>">&laquo; Back to List</a>
+        <a class="back-link" href="<?php echo url_for('/admin/' .$table_name .'/index.php'); ?>">&laquo; Back to List</a>
 
         <table class = "list">
             <tr>

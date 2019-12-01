@@ -1,6 +1,10 @@
 <?php
     require_once('../private/check.php');
 
+    if (!empty($_COOKIE['uname'])) {
+      redirect_to(url_for('admin/index.php'));
+    }
+
     if (is_post_request()) {
 
       $uname = sha1(encode($_POST['uname']));
@@ -38,7 +42,7 @@
     require(SHARED_PATH .'/header.php');
 ?>
 
-<h1>Welcom! Please login to continue.</h1>
+<h1>Welcome! Please login to continue.</h1>
 
 <div class="modal">
   
