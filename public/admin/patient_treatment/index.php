@@ -46,7 +46,9 @@
                     <td><?php echo h($p_record['pfname']) ." " .h($p_record['plname']); ?></td>
                     <td><?php echo h($t_record['tname']); ?></td>
                     <td><?php echo h($ph_record['phfname']); ?></td>
-                    <td><a class = "action" href = "<?php echo url_for('/admin/' .$table_name .'/show.php'); ?>">View</a></td>
+                    <td><a class = "action" href = "<?php echo url_for('/admin/' .$table_name .'/show.php?pid=' .h(u($record['pid'])) 
+                                                                                                        .'&tid=' .h(u($record['tid'])) 
+                                                                                                        .'&phid=' .h(u($record['phid']))); ?>">View</a></td>
                     <td><a class = "action" href = "<?php echo url_for('/admin/' .$table_name .'/edit.php?tdate=' .h(u(substr($record['tdate'], 0, 10))) 
                                                                                                         .'&tfreq=' .h(u($record['tfreq'])) 
                                                                                                         .'&pid=' .h(u($record['pid'])) 

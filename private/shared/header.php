@@ -1,12 +1,12 @@
 <?php
-  if(!isset($page_title)) { $page_title = 'Staff Area'; }
+  if(!isset($page_title)) { $page_title = 'We Do Care'; }
 ?>
 
 <!doctype html>
 
 <html lang="en">
   <head>
-    <title>GBI - <?php echo h($page_title); ?></title>
+    <title>WDC - <?php echo h($page_title); ?></title>
     <meta charset="utf-8">
     <script src = "../../../private/js/jquery.min.js"></script>
     <link rel="stylesheet" media="all" href="<?php echo url_for('/stylesheets/staff.css'); ?>" />
@@ -16,11 +16,13 @@
 
   <body>
     <header>
-      <h1>GBI Staff Area</h1>
+      <h1>We Do Care</h1>
     </header>
 
     <navigation>
       <ul>
-        <li><a href="<?php echo url_for('/staff/index.php'); ?>">Menu</a></li>
+        <li><a href="<?php echo url_for('/admin/index.php'); ?>">Menu</a></li>
+        <li><a href="<?php echo url_for('index.php'); ?>">Login</a></li>
+        <li><a href="<?php echo url_for('logout.php'); ?>">Log out</a></li>
       </ul>
     </navigation>

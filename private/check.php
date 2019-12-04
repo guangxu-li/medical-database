@@ -23,12 +23,4 @@
     $db = db_connect();
     $errors = [];
 
-    if((!isset($_COOKIE['uname'])||!isset($_COOKIE['psw']))) {
-        redirect_to(url_for('index.php'));
-    }
-    // if(empty($_COOKIE['uname'])&&empty($_COOKIE['password'])) {
-    //     if(!isset($_SESSION['username'])) {
-    //        redirect_to(url_for('index.php')); 
-    //     }
-    // }
 ?>

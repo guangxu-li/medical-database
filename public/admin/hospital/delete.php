@@ -1,8 +1,8 @@
 <?php
-
-    $table_name = "users";
-    $pk = "UID";
     require_once('../../../private/initialize.php');
+
+    $table_name = "hospital";
+    $pk = "hid";
 
     if(!isset($_GET[$pk])) {
         redirect_to(url_for('/admin/' .$table_name .'/index.php'));
@@ -27,9 +27,9 @@
 
         <h1><?php echo "Delete " .ucfirst($table_name); ?></h1>
         <p><?php echo "Are you sure you want to delete this " .$table_name ."?"; ?></p>
-        <p class = "item"><?php echo h($record[$pk]) ." " .h($record['ufname']) ." " .h($record['ulname']); ?></p>
+        <p class = "item"><?php echo h($record[$pk]) ." " .h($record['hname']) ." " .h($record['hst_city']) ." " .h($record['hstate']) ." " .h($record['hzip']); ?></p>
 
-        <form action = "<?php echo url_for('/admin/' .$table_name .'/delete.php?UID=' .h(u($record[$pk]))); ?>" method = "post">
+        <form action = "<?php echo url_for('/admin/' .$table_name .'/delete.php?' .$pk .'=' .h(u($pk_val))); ?>" method = "post">
             <div id = "operations">
                 <input type = "submit" name = "commit" value = "<?php echo "Delete " .ucfirst($table_name); ?>" />
             </div>
